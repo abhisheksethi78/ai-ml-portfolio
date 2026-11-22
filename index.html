@@ -39,23 +39,18 @@ li::marker { color:#355ec9; }
 .project-tags div { overflow-wrap:anywhere; line-height:1.35; }
 
 .project-visual {
-  margin:16px 10px 22px;
-  padding:8px;
-  background:#f8fafc;
-  border:1px solid #d8e1ec;
-  border-radius:6px;
-  break-inside:avoid;
-  page-break-inside:avoid;
+  margin: 14px 10px 18px;
+  padding: 6px;
+  background: #f7fbff;
+  border: 1px solid #cfdceb;
+  border-radius: 7px;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
-.project-visual a {
-  display:block;
-  text-decoration:none !important;
-}
-.project-visual img {
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:4px;
+.project-visual a { display:block; text-decoration:none !important; }
+.project-visual img { display:block; width:100%; height:auto; border-radius:5px; }
+@media screen and (max-width: 720px) {
+  .project-visual { margin:12px 0 16px; padding:4px; }
 }
 
 
@@ -115,41 +110,52 @@ li::marker { color:#355ec9; }
 <h3 class="learning-title">My Learnings</h3>
 </section>
 <div class="project-visual">
-  <a href="assets/superkart/01_business_functional_design_APPROVED.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Business and Functional Design">
-    <img src="assets/superkart/01_business_functional_design_APPROVED.png" alt="SuperKart Business and Functional Design" loading="lazy"/>
+  <a href="assets/superkart/01_executive_overview.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/01_executive_overview.png" alt="SuperKart Executive Overview" loading="lazy"/>
   </a>
 </div>
+
 <div class="detail-title">PROJECT: SuperKart Sales Prediction</div><section class="learning-section">
 <h4>OVERVIEW</h4>
 <ul><li>Built a complete machine-learning regression solution to predict Product_Store_Sales_Total for SuperKart using product and store attributes. The business goal was to support inventory planning, stock allocation, replenishment decisions, product-store sales strategy, and store-level business planning.</li><li>This project was not a time-series forecasting problem because the dataset did not contain date or historical sequence information. Instead, it focused on predicting sales revenue for product-store combinations using supervised regression.</li><li>The project covered the full applied machine-learning lifecycle, including data validation, EDA, feature engineering, preprocessing pipelines, model comparison, cross-validation, hyperparameter tuning, model explainability, final test evaluation, serialization, API deployment, and dashboard deployment.</li><li>Project Frontend URL: <a href="https://abhisheksethi78-superkart-sales-frontend.hf.space" rel="noopener noreferrer" target="_blank" title="Open https://abhisheksethi78-superkart-sales-frontend.hf.space">https://abhisheksethi78-superkart-sales-frontend.hf.space</a>; Final Selected Model: Tuned Random Forest Regressor; Final Test Performance: • Test RMSE: 273.688 • Test MAE: 100.167 • Test R²: 0.933 • Test WAPE: 2.892% • Prediction Bias: 4.120 • Overfitting Gap: 0.033</li></ul>
-</section><section class="learning-section">
+</section>
+
+<div class="project-visual">
+  <a href="assets/superkart/02_business_functional_design.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/02_business_functional_design.png" alt="SuperKart Business and Functional Design" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>DATA LOADING, QUALITY ASSESSMENT, AND CLEANING</h4>
 <ul><li>Loaded the SuperKart dataset containing 8,763 product-store records and 12 original columns.</li><li>Worked with product-level and store-level fields, including: Product_Id; Product_Weight; Product_Sugar_Content; Product_Allocated_Area; Product_Type; Product_MRP; Store_Id; Store_Establishment_Year; Store_Size; Store_Location_City_Type; Store_Type; Product_Store_Sales_Total</li><li>Performed structural checks for: Duplicate columns; Empty rows; Empty columns; Missing values; Duplicate rows; Duplicate product-store pairs; Confirmed that the dataset had: 0 missing values; 0 duplicate rows; 0 duplicate product-store pairs; Checked hidden missing labels such as: "NA", "N/A", "NULL", "None", "?", "-", and blank strings</li><li>Corrected the inconsistent sugar-content category: "reg" -&gt; "Regular"; Checked numerical validity for: Product weight; Allocated area ratio; Product MRP; Store establishment year; Sales target; Used the IQR method to identify potential outliers.</li><li>Retained outliers because they were valid business observations and may represent genuine high-demand or low-demand product-store cases.</li></ul>
 </section><section class="learning-section">
 <h4>EXPLORATORY DATA ANALYSIS AND BUSINESS INSIGHTS</h4>
 <ul><li>Analyzed target distribution, numerical features, categorical features, store-level patterns, and product-category performance. Found that the target variable Product_Store_Sales_Total was approximately symmetric: Target skewness: 0.09; Decided that no log transformation was required.</li><li>Identified strongest numerical relationships with sales: Product_MRP correlation: 0.788; Product_Weight correlation: 0.738; Product_Allocated_Area correlation: -0.001; Store_Establishment_Year correlation: -0.185; Found Product_MRP and Product_Weight to be the strongest numerical predictors.</li><li>Found that Product_Allocated_Area had almost no direct linear relationship with sales. Analyzed store-level performance and identified major variation: OUT003: highest average sales; OUT002: lowest average sales; OUT004: highest total sales because it had the most records</li><li>Observed that store-related variables were overlapping because the dataset contained only four stores. Analyzed product-type performance and found differences across categories such as Fruits and Vegetables, Snack Foods, Dairy, Frozen Foods, Household, Starchy Foods, and Hard Drinks.</li><li>Used EDA findings to justify tree-based and ensemble models because the data showed nonlinear product-store relationships.</li></ul>
 </section>
+
 <div class="project-visual">
-  <a href="assets/superkart/02_data_eda_feature_selection_APPROVED.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Dataset, EDA and Feature Selection">
-    <img src="assets/superkart/02_data_eda_feature_selection_APPROVED.png" alt="SuperKart Dataset, EDA and Feature Selection" loading="lazy"/>
+  <a href="assets/superkart/03_data_eda.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/03_data_eda.png" alt="SuperKart Data and Exploratory Data Analysis" loading="lazy"/>
   </a>
 </div>
 <section class="learning-section">
 <h4>FEATURE ENGINEERING AND LEAKAGE-SAFE PREPROCESSING</h4>
 <ul><li>Defined the target variable: Product_Store_Sales_Total; Separated predictors from the target to prevent leakage. Audited feature cardinality and identified Product_Id as a high-cardinality identifier. Created reusable feature-engineering logic.</li><li>Engineered new features: Product_Family from the first two characters of Product_Id; Product_MRP_per_Weight; Product_MRP_Area_Interaction; Dropped raw Product_Id to reduce memorization risk. Created an 80/20 stratified train-test split using Store_Id to preserve store representation. Final split: Training records: 7,010; Test records: 1,753</li><li>Created cross-validation strategy: 5-fold shuffled KFold for primary model evaluation; GroupKFold by Store_Id for store-level diagnostic validation; Built a leakage-safe preprocessing pipeline using scikit-learn. Numerical preprocessing: SimpleImputer with median strategy; RobustScaler for outlier-resistant scaling</li><li>Categorical preprocessing: SimpleImputer with most-frequent strategy; OneHotEncoder with handle_unknown="ignore"; Combined preprocessing using ColumnTransformer. Ensured preprocessing was fitted only on training data and reused for validation/test transformations.</li></ul>
 </section>
+
 <div class="project-visual">
-  <a href="assets/superkart/03_feature_engineering_preprocessing_ORIGINAL.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Feature Engineering and Preprocessing">
-    <img src="assets/superkart/03_feature_engineering_preprocessing_ORIGINAL.png" alt="SuperKart Feature Engineering and Leakage-Safe Preprocessing" loading="lazy"/>
+  <a href="assets/superkart/04_feature_engineering_preprocessing.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/04_feature_engineering_preprocessing.png" alt="SuperKart Feature Engineering and Preprocessing" loading="lazy"/>
   </a>
 </div>
 <section class="learning-section">
 <h4>MODEL BUILDING, EVALUATION, AND COMPARISON</h4>
 <ul><li>Built reusable regression evaluation functions. Created custom business metrics: WAPE; Prediction Bias; Absolute Bias; Tracked model metrics: RMSE; MAE; R²; WAPE; Prediction Bias; Overfitting Gap; Training Time; Scoring Time; Selected RMSE as the primary metric because large sales errors can cause costly inventory decisions.</li><li>Trained and compared seven models: 1. Linear Regression; 2. Decision Tree Regressor; 3. Bagging Regressor; 4. Random Forest Regressor; 5. AdaBoost Regressor; 6. Gradient Boosting Regressor; 7. XGBoost Regressor; Used the same preprocessing pipeline, training split, cross-validation folds, and random seed for all models.</li><li>Identified Random Forest as the best untuned model. Untuned Random Forest Performance: CV RMSE: 291.351; CV MAE: 110.954; CV R²: 0.925; CV WAPE: 3.203%</li><li>Prediction Bias: -3.044; Overfitting Gap: 0.065; Shortlisted the strongest models for tuning: Random Forest; Bagging; XGBoost</li></ul>
 </section>
+
 <div class="project-visual">
-  <a href="assets/superkart/04_modeling_experimentation_ORIGINAL.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Modeling and Experimentation">
-    <img src="assets/superkart/04_modeling_experimentation_ORIGINAL.png" alt="SuperKart Modeling Approach and Experimentation" loading="lazy"/>
+  <a href="assets/superkart/05_modeling_experimentation.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/05_modeling_experimentation.png" alt="SuperKart Modeling and Experimentation" loading="lazy"/>
   </a>
 </div>
 <section class="learning-section">
@@ -158,16 +164,44 @@ li::marker { color:#355ec9; }
 </section><section class="learning-section">
 <h4>FINAL TEST EVALUATION</h4>
 <ul><li>Final Champion Model: Tuned Random Forest Regressor; Final Test Results: Test RMSE: 273.688; Test MAE: 100.167; Test R²: 0.933; Test WAPE: 2.892%</li><li>Prediction Bias: 4.120; Overfitting Gap: 0.033; Final Interpretation: The model explained approximately 93.3% of variation in unseen product-store sales. Total absolute prediction error was less than 3% of total actual test sales. Prediction bias was small relative to average sales.</li><li>The low overfitting gap showed strong generalization.</li></ul>
-</section><section class="learning-section">
+</section>
+
+<div class="project-visual">
+  <a href="assets/superkart/06_tuning_final_evaluation.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/06_tuning_final_evaluation.png" alt="SuperKart Hyperparameter Tuning and Final Evaluation" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>ERROR ANALYSIS AND EXPLAINABILITY</h4>
 <ul><li>Created an error-analysis dataset with actual sales, predicted sales, residuals, and absolute errors. Found: MAE: 100.167; Median Absolute Error: 31.947; Largest Absolute Error: 2,409.649; Identified store-level error patterns: OUT003 MAE: 158.702; OUT001 MAE: 128.095; OUT002 MAE: 93.437; OUT004 MAE: 75.457</li><li>Flagged OUT003 and OUT001 for closer business review. Identified higher-error product categories: Household; Health and Hygiene; Frozen Foods; Dairy; Snack Foods</li><li>Used permutation importance for global model interpretation. Top Feature Drivers: 1. Product_MRP: 500.336 RMSE increase when shuffled; 2. Product_Weight: 374.639; 3. Store_Location_City_Type: 287.688; 4. Store_Type: 214.446; 5. Store_Id: 187.697; Added SHAP TreeExplainer to the deployed backend for local prediction explanations.</li><li>Used SHAP to show how individual features raised or lowered a single product-store sales prediction.</li></ul>
-</section><section class="learning-section">
+</section>
+
+<div class="project-visual">
+  <a href="assets/superkart/07_explainability_error_analysis.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/07_explainability_error_analysis.png" alt="SuperKart Explainability and Error Analysis" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>SERIALIZATION AND DEPLOYMENT</h4>
 <ul><li>Serialized the final fitted preprocessing and model pipeline using Joblib. Saved model metadata in JSON format. Reloaded the saved pipeline and verified that predictions matched the original fitted pipeline. Built a Flask backend with: Home endpoint; Health endpoint; Prediction endpoint; SHAP explanation support</li><li>Built a Streamlit frontend with: Product-store scenario input; Sales projection dashboard; Base-value vs prediction chart; SHAP driver chart; TreeExplainer flow diagram; Business interpretation panel; Containerized the backend and frontend using Docker.</li><li>Deployed both applications as Hugging Face Docker Spaces. Frontend URL: <a href="https://abhisheksethi78-superkart-sales-frontend.hf.space" rel="noopener noreferrer" target="_blank" title="Open https://abhisheksethi78-superkart-sales-frontend.hf.space">https://abhisheksethi78-superkart-sales-frontend.hf.space</a></li></ul>
-</section><section class="learning-section">
+</section>
+
+<div class="project-visual">
+  <a href="assets/superkart/08_deployment_architecture_mlops.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/08_deployment_architecture_mlops.png" alt="SuperKart Deployment Architecture and MLOps" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>FINAL CONCLUSION</h4>
 <ul><li>The SuperKart project successfully delivered an accurate, explainable, and deployable machine-learning solution for product-store sales prediction. The final tuned Random Forest model performed strongly on unseen data and was deployed as a working business-facing application. Final model highlights:</li><li>Test R²: 0.933; Test WAPE: 2.892%; Test RMSE: 273.688; Test MAE: 100.167; Overfitting Gap: 0.033 The project demonstrated strong skills in regression modeling, feature engineering, leakage-safe pipelines, model tuning, explainability, API development, dashboard design, and production-style deployment.</li></ul>
-</section><section class="project-tags"><strong>Project Tags</strong><div>#MachineLearning #RegressionModeling #SalesForecasting #RandomForest #XGBoost #ScikitLearn #FeatureEngineering #DataCleaning #EDA #HyperparameterTuning #CrossValidation #SHAP #ExplainableAI #Flask #Streamlit #Docker #HuggingFace #MLOps #RetailAnalytics #DataScience #ProductionReady</div></section><section class="project-intro project-break">
+</section>
+
+<div class="project-visual">
+  <a href="assets/superkart/09_business_impact_production_readiness.png" target="_blank" rel="noopener noreferrer">
+    <img src="assets/superkart/09_business_impact_production_readiness.png" alt="SuperKart Business Impact and Production Readiness" loading="lazy"/>
+  </a>
+</div>
+<section class="project-tags"><strong>Project Tags</strong><div>#MachineLearning #RegressionModeling #SalesPrediction #RandomForest #XGBoost #ScikitLearn #FeatureEngineering #DataCleaning #EDA #HyperparameterTuning #CrossValidation #SHAP #ExplainableAI #Flask #Streamlit #Docker #HuggingFace #MLOps #RetailAnalytics #DataScience #ProductionReady</div></section><section class="project-intro project-break">
 <div class="project-date">JUL 2026</div>
 <h2>HelmNet</h2>
 <div class="course"><strong>Course:</strong> Introduction to Computer Vision</div>

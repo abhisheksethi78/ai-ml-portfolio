@@ -38,6 +38,27 @@ li::marker { color:#355ec9; }
 .project-tags strong { display:block; color:#3d4f9f; font-size:7.6pt; margin-bottom:3px; }
 .project-tags div { overflow-wrap:anywhere; line-height:1.35; }
 
+.project-visual {
+  margin:16px 10px 22px;
+  padding:8px;
+  background:#f8fafc;
+  border:1px solid #d8e1ec;
+  border-radius:6px;
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
+.project-visual a {
+  display:block;
+  text-decoration:none !important;
+}
+.project-visual img {
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:4px;
+}
+
+
 
 /* Screen HTML presentation - preserves the PDF's visual language */
 @media screen {
@@ -92,7 +113,13 @@ li::marker { color:#355ec9; }
 <h3 class="skills-title">Skills &amp; Tools Covered</h3>
 <div class="chips"><span class="chip">EDA and Data Preprocessing</span><span class="chip">Model Building</span><span class="chip">Hyperparameter Tuning</span><span class="chip">Docker</span><span class="chip">Flask</span><span class="chip">API Development</span><span class="chip">Streamlit</span><span class="chip">Hugging Face</span><span class="chip">Python</span><span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">Scikit-learn</span><span class="chip">XGBoost</span><span class="chip">Random Forest</span><span class="chip">Regression Modeling</span><span class="chip">Feature Engineering</span><span class="chip">Data Cleaning</span><span class="chip">EDA</span><span class="chip">Cross-Validation</span><span class="chip">RandomizedSearchCV</span><span class="chip">GridSearchCV</span><span class="chip">RMSE</span><span class="chip">MAE</span><span class="chip">R²</span><span class="chip">WAPE</span><span class="chip">Prediction Bias</span><span class="chip">Error Analysis</span><span class="chip">Permutation Importance</span><span class="chip">SHAP</span><span class="chip">Joblib</span><span class="chip">Hugging Face Spaces</span><span class="chip">MLOps</span><span class="chip">Model Deployment</span><span class="chip">Retail Analytics</span></div>
 <h3 class="learning-title">My Learnings</h3>
-</section><div class="detail-title">PROJECT: SuperKart Sales Prediction</div><section class="learning-section">
+</section>
+<div class="project-visual">
+  <a href="assets/superkart/01_business_functional_design_APPROVED.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Business and Functional Design">
+    <img src="assets/superkart/01_business_functional_design_APPROVED.png" alt="SuperKart Business and Functional Design" loading="lazy"/>
+  </a>
+</div>
+<div class="detail-title">PROJECT: SuperKart Sales Prediction</div><section class="learning-section">
 <h4>OVERVIEW</h4>
 <ul><li>Built a complete machine-learning regression solution to predict Product_Store_Sales_Total for SuperKart using product and store attributes. The business goal was to support inventory planning, stock allocation, replenishment decisions, product-store sales strategy, and store-level business planning.</li><li>This project was not a time-series forecasting problem because the dataset did not contain date or historical sequence information. Instead, it focused on predicting sales revenue for product-store combinations using supervised regression.</li><li>The project covered the full applied machine-learning lifecycle, including data validation, EDA, feature engineering, preprocessing pipelines, model comparison, cross-validation, hyperparameter tuning, model explainability, final test evaluation, serialization, API deployment, and dashboard deployment.</li><li>Project Frontend URL: <a href="https://abhisheksethi78-superkart-sales-frontend.hf.space" rel="noopener noreferrer" target="_blank" title="Open https://abhisheksethi78-superkart-sales-frontend.hf.space">https://abhisheksethi78-superkart-sales-frontend.hf.space</a>; Final Selected Model: Tuned Random Forest Regressor; Final Test Performance: • Test RMSE: 273.688 • Test MAE: 100.167 • Test R²: 0.933 • Test WAPE: 2.892% • Prediction Bias: 4.120 • Overfitting Gap: 0.033</li></ul>
 </section><section class="learning-section">
@@ -101,13 +128,31 @@ li::marker { color:#355ec9; }
 </section><section class="learning-section">
 <h4>EXPLORATORY DATA ANALYSIS AND BUSINESS INSIGHTS</h4>
 <ul><li>Analyzed target distribution, numerical features, categorical features, store-level patterns, and product-category performance. Found that the target variable Product_Store_Sales_Total was approximately symmetric: Target skewness: 0.09; Decided that no log transformation was required.</li><li>Identified strongest numerical relationships with sales: Product_MRP correlation: 0.788; Product_Weight correlation: 0.738; Product_Allocated_Area correlation: -0.001; Store_Establishment_Year correlation: -0.185; Found Product_MRP and Product_Weight to be the strongest numerical predictors.</li><li>Found that Product_Allocated_Area had almost no direct linear relationship with sales. Analyzed store-level performance and identified major variation: OUT003: highest average sales; OUT002: lowest average sales; OUT004: highest total sales because it had the most records</li><li>Observed that store-related variables were overlapping because the dataset contained only four stores. Analyzed product-type performance and found differences across categories such as Fruits and Vegetables, Snack Foods, Dairy, Frozen Foods, Household, Starchy Foods, and Hard Drinks.</li><li>Used EDA findings to justify tree-based and ensemble models because the data showed nonlinear product-store relationships.</li></ul>
-</section><section class="learning-section">
+</section>
+<div class="project-visual">
+  <a href="assets/superkart/02_data_eda_feature_selection_APPROVED.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Dataset, EDA and Feature Selection">
+    <img src="assets/superkart/02_data_eda_feature_selection_APPROVED.png" alt="SuperKart Dataset, EDA and Feature Selection" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>FEATURE ENGINEERING AND LEAKAGE-SAFE PREPROCESSING</h4>
 <ul><li>Defined the target variable: Product_Store_Sales_Total; Separated predictors from the target to prevent leakage. Audited feature cardinality and identified Product_Id as a high-cardinality identifier. Created reusable feature-engineering logic.</li><li>Engineered new features: Product_Family from the first two characters of Product_Id; Product_MRP_per_Weight; Product_MRP_Area_Interaction; Dropped raw Product_Id to reduce memorization risk. Created an 80/20 stratified train-test split using Store_Id to preserve store representation. Final split: Training records: 7,010; Test records: 1,753</li><li>Created cross-validation strategy: 5-fold shuffled KFold for primary model evaluation; GroupKFold by Store_Id for store-level diagnostic validation; Built a leakage-safe preprocessing pipeline using scikit-learn. Numerical preprocessing: SimpleImputer with median strategy; RobustScaler for outlier-resistant scaling</li><li>Categorical preprocessing: SimpleImputer with most-frequent strategy; OneHotEncoder with handle_unknown="ignore"; Combined preprocessing using ColumnTransformer. Ensured preprocessing was fitted only on training data and reused for validation/test transformations.</li></ul>
-</section><section class="learning-section">
+</section>
+<div class="project-visual">
+  <a href="assets/superkart/03_feature_engineering_preprocessing_ORIGINAL.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Feature Engineering and Preprocessing">
+    <img src="assets/superkart/03_feature_engineering_preprocessing_ORIGINAL.png" alt="SuperKart Feature Engineering and Leakage-Safe Preprocessing" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>MODEL BUILDING, EVALUATION, AND COMPARISON</h4>
 <ul><li>Built reusable regression evaluation functions. Created custom business metrics: WAPE; Prediction Bias; Absolute Bias; Tracked model metrics: RMSE; MAE; R²; WAPE; Prediction Bias; Overfitting Gap; Training Time; Scoring Time; Selected RMSE as the primary metric because large sales errors can cause costly inventory decisions.</li><li>Trained and compared seven models: 1. Linear Regression; 2. Decision Tree Regressor; 3. Bagging Regressor; 4. Random Forest Regressor; 5. AdaBoost Regressor; 6. Gradient Boosting Regressor; 7. XGBoost Regressor; Used the same preprocessing pipeline, training split, cross-validation folds, and random seed for all models.</li><li>Identified Random Forest as the best untuned model. Untuned Random Forest Performance: CV RMSE: 291.351; CV MAE: 110.954; CV R²: 0.925; CV WAPE: 3.203%</li><li>Prediction Bias: -3.044; Overfitting Gap: 0.065; Shortlisted the strongest models for tuning: Random Forest; Bagging; XGBoost</li></ul>
-</section><section class="learning-section">
+</section>
+<div class="project-visual">
+  <a href="assets/superkart/04_modeling_experimentation_ORIGINAL.png" target="_blank" rel="noopener noreferrer" title="Open full-size SuperKart Modeling and Experimentation">
+    <img src="assets/superkart/04_modeling_experimentation_ORIGINAL.png" alt="SuperKart Modeling Approach and Experimentation" loading="lazy"/>
+  </a>
+</div>
+<section class="learning-section">
 <h4>HYPERPARAMETER TUNING AND FINAL MODEL SELECTION</h4>
 <ul><li>Used a two-stage tuning strategy. Stage 1: RandomizedSearchCV for broad hyperparameter exploration. Stage 2: GridSearchCV for focused refinement around the best randomized-search results. Tuned Random Forest, Bagging, and XGBoost. Tuned Random Forest achieved the best validation performance. Tuned Random Forest Performance: CV RMSE: 285.123</li><li>CV MAE: 108.096; CV R²: 0.928; CV WAPE: 3.121%; Prediction Bias: -1.280; Overfitting Gap: 0.038</li><li>Final Random Forest parameters: n_estimators = 300; min_samples_split = 10; min_samples_leaf = 2; Selected Random Forest before evaluating the untouched test set. Preserved the test set as a final unbiased holdout.</li></ul>
 </section><section class="learning-section">
